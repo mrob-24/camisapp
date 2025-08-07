@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galería de Diseños</title>
+  <style>
+    /* Estilos base con fondo dinámico */
+    :root {
+      --verde-oscuro: #273C2C;
+      --gris-oscuro: #626868;
+      --verde-claro: rgba(39, 60, 44, 0.6);
+      --gris-claro: rgba(98, 104, 104, 0.4);
+    }
+    
+    @keyframes gradientBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      color: white;
+      background: linear-gradient(-45deg, #1a2a1f, #2d3e30, #1a2a1f, #273C2C);
+      background-size: 400% 400%;
+      animation: gradientBackground 15s ease infinite;
+      overflow-x: hidden;
+    }
+
+    /* Contenedor principal */
+    .main-container {
+      padding: 3rem 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Título con efecto neon sutil */
+    h1 {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      font-weight: 600;
+      font-size: 2.5rem;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    }
+
+    /* Carrusel con glassmorfismo mejorado */
+    .carousel-container {
+      position: relative;
+      padding: 1rem 0 3rem;
+    }
+    
+    .carousel {
+      display: flex;
+      gap: 1.8rem;
+      padding: 2rem 1.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Ocultar scrollbar pero mantener funcionalidad */
+    .carousel::-webkit-scrollbar {
+      display: none;
+    }
+    .carousel {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    /* Tarjetas con efecto glass premium */
+    .card {
+      flex: 0 0 300px;
+      scroll-snap-align: start;
+      border-radius: 20px;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      transform: rotate(30deg);
+      pointer-events: none;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      background: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Contenido de la tarjeta */
+    .shirt-preview {
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: center;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+    }
+    
+    #camiseta-svg {
+      width: 100%;
+      height: auto;
+      max-height: 140px;
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover #camiseta-svg {
+      transform: scale(1.05);
+    }
+
+    .nombre-creador {
+      font-size: 1.2rem;
+      margin: 0.5rem 0 0.25rem;
+      font-weight: 500;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .calificacion, .fecha {
+      font-size: 0.9rem;
+      margin: 0.25rem 0;
+      color: rgba(255, 255, 255, 0.85);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    .calificacion::before {
+      content: '⭐';
+    }
+    
+    .fecha::before {
+      content: '📅';
+    }
+
+    /* Botones con efecto vidrio */
+    .botones-reaccion {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    button {
+      margin: 0;
+      padding: 0.7rem 1.2rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      flex: 1;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    button:hover::before {
+      opacity: 1;
+    }
+    
+    .btn-like { 
+      background: rgba(39, 60, 44, 0.7);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .btn-dislike { 
+      background: rgba(98, 104, 104, 0.5);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .btn-like:hover { 
+      background: rgba(39, 60, 44, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(39, 60, 44, 0.4);
+    }
+    
+    .btn-dislike:hover { 
+      background: rgba(98, 104, 104, 0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(98, 104, 104, 0.3);
+    }
+
+    /* Indicadores de scroll */
+    .scroll-hint {
+      position: absolute;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.6);
+      font-size: 1.5rem;
+      animation: bounceRight 2s infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes bounceRight {
+      0%, 100% { transform: translateY(-50%) translateX(0); }
+      50% { transform: translateY(-50%) translateX(10px); }
+    }
+
+    /* Fuente premium */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <h1>Galería de Diseños</h1>
+    
+    <div class="carousel-container">
+      <div class="carousel" id="contenedor-camisetas">
+        <!-- Las tarjetas se insertarán aquí dinámicamente con JS -->
+      </div>
+      <div class="scroll-hint">→</div>
+    </div>
+  </div>
+
+  <script>
+    function generarMiniatura(c) {
+      return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 16" id="camiseta-svg">
+            <path class="parte-camiseta" id="manga-izquierda" d="M 1 5 L 4 3 L 5 3 L 5 6 L 3 7 Z" fill="${c.mangaizq}" />
+            <path class="parte-camiseta" id="torso" d="M 5 3 L 13 3 L 13 6 L 13 12 L 5 12 L 5 6 Z" fill="${c.torso}" />
+            <path class="parte-camiseta" id="manga-derecha" d="M 13 3 L 14 3 L 17 5 L 15 7 L 13 6 Z" fill="${c.mangader}" />
+            <path class="parte-camiseta" id="cuelloizq" d="M 7 3 L 8 2 L 9 3 L 8 4 Z" fill="${c.cuelloizq}" />
+            <path class="parte-camiseta" id="cuelloder" d="M 9 3 L 10 2 L 11 3 L 10 4 Z"  fill="${c.cuelloder}" />
+    </svg>
+    `
+    }
+
+    async function cargarCamisetas() {
+      try {
+        const resp = await fetch('/api/camisetas', {
+          headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+        });
+        const camisetas = await resp.json();
+
+        const contenedor = document.getElementById('contenedor-camisetas');
+        contenedor.innerHTML = '';
+
+        camisetas.forEach(c => {
+          let nombre = 'Diseñador Anónimo';
+          if (c.creador && typeof c.creador === 'object') {
+            nombre = c.creador.nombre || c.creador.correo || 'Usuario';
+          } else if (typeof c.creador === 'string') {
+            nombre = c.creador;
+          }
+
+          const calificacion = typeof c.calificacion === 'number' ? c.calificacion.toFixed(1) : '0.0';
+
+          const card = document.createElement('div');
+          card.classList.add('card');
+          card.innerHTML = `
+            <div class="shirt-preview">
+              ${generarMiniatura(c)}
+            </div>
+            <div class="nombre-creador">${nombre}</div>
+            <div class="calificacion">${calificacion}</div>
+            <div class="fecha">${new Date(c.fechaCreacion).toLocaleDateString()}</div>
+            <div class="botones-reaccion">
+              <button class="btn-like" onclick="reaccion('${c._id}', 1)">
+                <span>👍</span> Me gusta
+              </button>
+              <button class="btn-dislike" onclick="reaccion('${c._id}', -1)">
+                <span>👎</span> No me gusta
+              </button>
+            </div>
+          `;
+          contenedor.appendChild(card);
+        });
+
+      } catch (error) {
+        console.error('Error al cargar camisetas:', error);
+      }
+    }
+
+    async function reaccion(id, valor) {
+      try {
+        const resp = await fetch(`/api/camisetas/vota/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          },
+          body: JSON.stringify({ calificacion: valor })
+        });
+
+        if (resp.ok) {
+          await cargarCamisetas();
+        } else {
+          const error = await resp.json();
+          alert('Error al votar: ' + error.error);
+        }
+      } catch (error) {
+        alert('Error al conectar con el servidor');
+      }
+    }
+    
+    cargarCamisetas();
+  </script>
+</body>
+</html>

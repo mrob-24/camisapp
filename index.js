@@ -40,6 +40,10 @@ app.get('/registro', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'registro.html'));
 });
 
+app.get('/carrusel', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'carrusel.html'));
+});
+
 // Puerto
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

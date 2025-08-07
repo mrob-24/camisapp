@@ -1,32 +1,250 @@
-<html>
-<head></head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Usuario</title>
+  <style>
+    :root {
+      --verde-oscuro: #273C2C;
+      --gris-oscuro: #626868;
+      --verde-claro: rgba(39, 60, 44, 0.6);
+      --gris-claro: rgba(98, 104, 104, 0.4);
+    }
+    
+    @keyframes gradientBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      color: white;
+      background: linear-gradient(-45deg, #1a2a1f, #2d3e30, #1a2a1f, #273C2C);
+      background-size: 400% 400%;
+      animation: gradientBackground 15s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-container {
+      width: 90%;
+      max-width: 400px;
+      padding: 2.5rem 2rem; /* Más padding lateral */
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
+      box-sizing: border-box; /* Para que el padding no afecte el ancho */
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: 600;
+      font-size: 2rem;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 25%; /* Centrado del subrayado */
+      width: 50%; /* Más corto para mejor estética */
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding: 0 0.5rem; /* Padding interno para los inputs */
+    }
+    
+    input {
+      width: 100%;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-sizing: border-box; /* Para que el padding no afecte el ancho */
+    }
+    
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 0 3px rgba(39, 60, 44, 0.3);
+    }
+
+    button {
+      width: calc(100% - 1rem); /* Ajuste para el padding del contenedor */
+      margin: 0.5rem; /* Margen para centrar */
+      padding: 1rem;
+      background: rgba(39, 60, 44, 0.7);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      position: relative;
+      overflow: hidden;
+      display: block; /* Para que el margin auto funcione */
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    button:hover {
+      background: rgba(39, 60, 44, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(39, 60, 44, 0.4);
+    }
+    
+    button:hover::before {
+      opacity: 1;
+    }
+
+    #mensaje {
+      margin: 1.5rem 0.5rem 0;
+      padding: 0.8rem;
+      border-radius: 8px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      display: none;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      padding: 0 0.5rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .login-link a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .login-link a:hover {
+      color: #a5d6a7;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+  </style>
+</head>
 <body>
-<input type="text" id="inputnombre" placeholder="Escriba el nombre">
-<input type="email" id="inputemail" placeholder="Escriba el email">
-<input type="password" id="inputpassword" placeholder="Escriba el password">
-<input type="button" value="Registrar" onclick="registrar()">
-<script>
-async function registrar()
-{
-const datos = {
-nombre: document.getElementById("inputnombre").value,
-email: document.getElementById("inputemail").value,
-clave: document.getElementById("inputpassword").value
-};
-const respuesta = await fetch('/api/usuarios', {
-method: 'POST',
-headers: {
-'Content-Type': 'application/json'
-},
-body: JSON.stringify(datos)
-});
-if (!respuesta.ok) {
-const error = await respuesta.json();
-throw new Error(error.error || 'Error en la solicitud');
-}
-const resultado = await respuesta.json();
-console.log('Usuario creado con fetch:', resultado);
-}
-</script>
+  <div class="form-container">
+    <h1>Crear Cuenta</h1>
+    
+    <div class="input-group">
+      <input type="text" id="inputnombre" placeholder="Nombre completo" required>
+    </div>
+    
+    <div class="input-group">
+      <input type="email" id="inputemail" placeholder="Correo electrónico" required>
+    </div>
+    
+    <div class="input-group">
+      <input type="password" id="inputpassword" placeholder="Contraseña" required>
+    </div>
+    
+    <button type="button" onclick="registrar()">Registrarse</button>
+    
+    <div id="mensaje"></div>
+    
+    <div class="login-link">
+      ¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a>
+    </div>
+  </div>
+
+  <script>
+    // (El JavaScript permanece igual)
+    async function registrar() {
+      const nombre = document.getElementById("inputnombre").value;
+      const email = document.getElementById("inputemail").value;
+      const clave = document.getElementById("inputpassword").value;
+      
+      const mensaje = document.getElementById('mensaje');
+      mensaje.style.display = 'none';
+      
+      if (!nombre || !email || !clave) {
+        mostrarMensaje('Por favor completa todos los campos', 'error');
+        return;
+      }
+
+      const datos = { nombre, email, clave };
+      
+      try {
+        const respuesta = await fetch('/api/usuarios', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(datos)
+        });
+
+        if (!respuesta.ok) {
+          const error = await respuesta.json();
+          throw new Error(error.error || 'Error en el registro');
+        }
+
+        const resultado = await respuesta.json();
+        console.log('Usuario creado:', resultado);
+        mostrarMensaje('¡Registro exitoso! Redirigiendo...', 'exito');
+        
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 2000);
+        
+      } catch (error) {
+        console.error('Error al registrar:', error);
+        mostrarMensaje(error.message || 'Error al registrar usuario', 'error');
+      }
+    }
+    
+    function mostrarMensaje(texto, tipo) {
+      const mensaje = document.getElementById('mensaje');
+      mensaje.innerText = texto;
+      mensaje.style.display = 'block';
+      mensaje.style.background = tipo === 'error' 
+        ? 'rgba(244, 67, 54, 0.2)' 
+        : 'rgba(76, 175, 80, 0.2)';
+      mensaje.style.color = tipo === 'error' 
+        ? '#ff8a80' 
+        : '#a5d6a7';
+    }
+  </script>
 </body>
 </html>
